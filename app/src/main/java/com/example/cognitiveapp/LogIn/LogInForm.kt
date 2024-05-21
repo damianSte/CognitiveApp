@@ -1,15 +1,19 @@
-package com.example.cognitiveapp
+package com.example.cognitiveapp.LogIn
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -22,6 +26,8 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -30,6 +36,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,13 +46,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.example.cognitiveapp.MainActivity
+import com.example.cognitiveapp.R
 import com.example.cognitiveapp.ui.theme.CognitiveAppTheme
 
 @Composable
@@ -54,12 +69,37 @@ fun LogInForm() {
         mutableStateOf(Credentials())
     }
     val context = LocalContext.current
+
     Surface {
-        Column (
+        Column(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxSize().padding(horizontal = 30.dp)
-        ){
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 30.dp)
+        ) {
+            Text(
+                text = "Cognitive-App",
+                style = TextStyle(fontSize = 40.sp),
+                modifier = Modifier.padding(bottom = 20.dp)
+            )
+            val image: Painter =
+                painterResource(id = R.drawable.icon2)
+            Image(
+                painter = image,
+                contentDescription = null,
+                modifier = Modifier
+                    .size(200.dp)
+                    .padding(bottom = 20.dp)
+            )
+
+            Text(
+                text = "Log In",
+                style = TextStyle(fontSize = 40.sp),
+                modifier = Modifier
+                    .padding(bottom = 20.dp)
+            )
+
             LogInField(
                 value = credentials.login,
                 onChange = { data -> credentials = credentials.copy(login = data) }
@@ -70,24 +110,29 @@ fun LogInForm() {
                 onChange = { data -> credentials = credentials.copy(pwd = data) },
                 submit = { checkCredentials(credentials, context) }
             )
-            Spacer(modifier = Modifier.height(10.dp))
-            LabeledCheckbox(label = "Remember me",
-                onCheckChanged = {credentials = credentials.copy(remember = !credentials.remember)}, isChecked =credentials.remember )
+
             Spacer(modifier = Modifier.height(20.dp))
-            Button(onClick = { checkCredentials(credentials, context) },
+            Button(
+                onClick = { checkCredentials(credentials, context) },
                 enabled = credentials.isNotEmpty(),
-                shape = RoundedCornerShape(5.dp) ) {
-                Text(text = "LogIn")
+                shape = RoundedCornerShape(20.dp),
+                modifier = Modifier.fillMaxWidth(), // Apply the modifier here
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = Color.Black
+                )
+            )
+            {
+                Text(text = "LogIn", style = TextStyle(Color.White))
             }
         }
     }
 }
 
-fun checkCredentials(credentials:Credentials, context: Context){
-    if(credentials.isNotEmpty( ) && credentials.login =="admin"){
+fun checkCredentials(credentials: Credentials, context: Context) {
+    if (credentials.isNotEmpty() && credentials.login == "admin") {
         context.startActivity(Intent(context, MainActivity::class.java))
         (context as Activity).finish()
-    }else{
+    } else {
         Toast.makeText(context, "Wrong credentials", Toast.LENGTH_SHORT).show()
     }
 
@@ -104,27 +149,8 @@ data class Credentials(
 }
 
 @Composable
-fun LabeledCheckbox(
-    label: String,
-    onCheckChanged: () -> Unit,
-    isChecked: Boolean
-) {
-
-    Row(
-        Modifier
-            .clickable(
-                onClick = onCheckChanged
-            )
-            .padding(4.dp)
-    ) {
-        Checkbox(checked = isChecked, onCheckedChange = null)
-        Spacer(Modifier.size(6.dp))
-        Text(label)
-    }
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
-@Composable
+
 fun LogInField(
     value: String,
     onChange: (String) -> Unit,
@@ -137,17 +163,21 @@ fun LogInField(
     val leadingIcon = @Composable {
         Icon(
             Icons.Default.Person,
-            contentDescription = "",
-            tint = MaterialTheme.colorScheme.primary
+            contentDescription = null
 
         )
     }
 
-
     TextField(
         value = value,
         onValueChange = onChange,
-        modifier = modifier,
+        modifier = modifier
+            .fillMaxWidth()
+            .border(
+                width = 2.dp,
+                color = Color.Black,
+                shape = RoundedCornerShape(30.dp)
+            ).height(50.dp),
         leadingIcon = leadingIcon,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
         keyboardActions = KeyboardActions(
@@ -156,10 +186,17 @@ fun LogInField(
         placeholder = { Text(placeholder) },
         label = { Text(label) },
         singleLine = true,
-        visualTransformation = VisualTransformation.None
-    )
+        visualTransformation = VisualTransformation.None,
+        colors = TextFieldDefaults.textFieldColors(
+            containerColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.White,
+            focusedIndicatorColor = Color.White
+        ),
+
+        )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PasswordField(
     value: String,
@@ -177,7 +214,6 @@ fun PasswordField(
         Icon(
             Icons.Default.Key,
             contentDescription = "",
-            tint = MaterialTheme.colorScheme.primary
         )
     }
 
@@ -186,7 +222,7 @@ fun PasswordField(
             Icon(
                 if (isPasswordVisible) Icons.Default.VisibilityOff else Icons.Default.Visibility,
                 contentDescription = "",
-                tint = MaterialTheme.colorScheme.primary
+                modifier = modifier.padding(end = 15.dp)
             )
         }
     }
@@ -194,7 +230,13 @@ fun PasswordField(
     TextField(
         value = value,
         onValueChange = onChange,
-        modifier = modifier,
+        modifier = modifier
+            .fillMaxWidth()
+            .border(
+                width = 2.dp,
+                color = Color.Black,
+                shape = RoundedCornerShape(30.dp)
+            ).height(50.dp),
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
         keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
@@ -204,7 +246,12 @@ fun PasswordField(
         placeholder = { Text(placeholder) },
         label = { Text(label) },
         singleLine = true,
-        visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation()
+        visualTransformation = if (isPasswordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+        colors = TextFieldDefaults.textFieldColors(
+            containerColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.White,
+            focusedIndicatorColor = Color.White
+        )
     )
 }
 

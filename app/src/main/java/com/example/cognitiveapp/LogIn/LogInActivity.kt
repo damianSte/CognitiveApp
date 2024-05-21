@@ -1,4 +1,4 @@
-package com.example.cognitiveapp
+package com.example.cognitiveapp.LogIn
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
