@@ -21,7 +21,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Key
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
@@ -56,7 +55,7 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.cognitiveapp.MainActivity
+import com.example.cognitiveapp.MainActivity.MainActivity
 import com.example.cognitiveapp.R
 import com.example.cognitiveapp.Register.RegisterActivity
 import com.example.cognitiveapp.ui.theme.CognitiveAppTheme
@@ -138,6 +137,7 @@ fun LogInForm() {
                 modifier = Modifier.clickable {
                     val intent = Intent(context, RegisterActivity::class.java)
                     context.startActivity(intent)
+                    (context as Activity).finish()
                 }
             )
         }

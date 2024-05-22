@@ -51,11 +51,8 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.cognitiveapp.LogIn.Credentials
 import com.example.cognitiveapp.LogIn.LogInActivity
-import com.example.cognitiveapp.LogIn.LogInForm
-import com.example.cognitiveapp.LogIn.checkCredentials
-import com.example.cognitiveapp.MainActivity
+import com.example.cognitiveapp.MainActivity.MainActivity
 import com.example.cognitiveapp.ui.theme.CognitiveAppTheme
 
 @Composable
