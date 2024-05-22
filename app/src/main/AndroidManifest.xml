@@ -24,6 +24,12 @@
         </activity>
 
         <activity
+            android:name=".Register.RegisterActivity"
+            android:exported="true"
+            android:theme="@style/Theme.CognitiveApp"
+            />
+
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"
