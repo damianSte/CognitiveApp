@@ -30,7 +30,23 @@
             />
 
         <activity
-            android:name=".MainActivity"
+            android:name=".TestOne.TestOneActivity"
+            android:exported="true"
+            android:theme="@style/Theme.CognitiveApp"
+            />
+        <activity
+            android:name=".TestTwo.TestTwoActivity"
+            android:exported="true"
+            android:theme="@style/Theme.CognitiveApp"
+            />
+
+        <activity
+            android:name=".TestThree.TestThreeActivity"
+            android:exported="true"
+            android:theme="@style/Theme.CognitiveApp"
+            />
+        <activity
+            android:name=".MainActivity.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.CognitiveApp">
