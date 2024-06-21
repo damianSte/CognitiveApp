@@ -26,11 +26,11 @@ class Theme(
     override val cardFrontBaseColor: Color = Color.White,
     override val matchedOutlineColor: Color = Color.Green,
     override val imageMap: Map<Int, Int> = mapOf(
-        1 to R.drawable.rabbit,
+        1 to R.drawable.octopus,
         2 to R.drawable.parrot,
         3 to R.drawable.dog,
         4 to R.drawable.cat,
-        5 to R.drawable.fretka,
+        5 to R.drawable.frog,
         6 to R.drawable.horse
     ),
 
