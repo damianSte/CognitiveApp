@@ -19,6 +19,7 @@ class MainActivity : ComponentActivity() {
                         1 -> directToTestOne()
                         2 -> directToTestTwo()
                         3 -> directToTestThree()
+
                     }
                 }
             }
@@ -36,6 +37,11 @@ class MainActivity : ComponentActivity() {
 
     private fun directToTestThree(){
         val intent = Intent(this, TestThreeActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun directToMainActivity(){
+        val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
     }
 }

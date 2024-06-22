@@ -9,8 +9,13 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.example.cognitiveapp.TestTwo.Game.MemoryViewModel
 import com.example.cognitiveapp.ui.theme.CognitiveAppTheme
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 
 class TestTwoActivity: ComponentActivity(){
+
+    private val firebaseAuth = FirebaseAuth.getInstance()
+    private val firestore = FirebaseFirestore.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -19,7 +24,7 @@ class TestTwoActivity: ComponentActivity(){
                     modifier = Modifier.fillMaxSize()
                 ) {
                     val viewModel: MemoryViewModel by viewModels()
-                    MemoryScreen(viewModel = viewModel)
+                    MemoryScreen(viewModel = viewModel, currentUser = firebaseAuth)
 
                 }
             }

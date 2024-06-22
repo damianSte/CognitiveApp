@@ -1,6 +1,8 @@
 package com.example.cognitiveapp.TestTwo
 
+import android.content.Intent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,56 +36,22 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.cognitiveapp.MainActivity.MainActivity
 import com.example.cognitiveapp.TestTwo.Game.MemoryCard
 import com.example.cognitiveapp.TestTwo.Game.MemoryEvent
 import com.example.cognitiveapp.TestTwo.Game.MemoryState
 import com.example.cognitiveapp.TestTwo.Game.MemoryViewModel
+import com.example.cognitiveapp.firebase.MemoryGameDataClass
+import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
+import java.util.UUID
 
-
-@Composable
-fun ResetGameButton(
-    viewModel: MemoryViewModel,
-    modifier: Modifier = Modifier
-) {
-
-    IconButton(
-        onClick = { viewModel.onEvent(MemoryEvent.ResetGame) },
-        icon = Icons.Default.Cached,
-        contentDescription = "Reset Game",
-        tint = Color.Black,
-        modifier = modifier
-    )
-}
-
-@Composable
-fun IconButton(
-    onClick: () -> Unit,
-    icon: ImageVector,
-    contentDescription: String,
-    tint: Color,
-    modifier: Modifier = Modifier
-
-) {
-    Box(modifier = modifier) {
-        Button(
-            onClick = onClick,
-            shape = CircleShape,
-            colors = ButtonDefaults.buttonColors(
-                Color.Transparent
-            )
-        ) {
-            Icon(
-                imageVector = icon, contentDescription = contentDescription,
-                tint = tint, modifier = Modifier.size(20.dp)
-            )
-
-        }
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -189,15 +157,18 @@ fun calculateRowRange(pairCount: Int, isPortrait: Boolean): List<IntRange>{
 @Composable
 fun MemoryScreen(
     modifier: Modifier = Modifier,
-    viewModel: MemoryViewModel
+    viewModel: MemoryViewModel,
+    currentUser: FirebaseAuth?
 ){
     val configuration = LocalConfiguration.current
     val isPortrait = configuration.orientation == android.content.res.Configuration.ORIENTATION_PORTRAIT
     val state = viewModel.state.value
-    
+
     val backgroundImage = if(isPortrait) state.theme.backgroundPortrait
     else state.theme.backgroundLandScape
-    
+
+    val context = LocalContext.current
+
     Box(modifier = modifier.fillMaxSize()){
         Image( painter = painterResource(id = backgroundImage),
             contentDescription = "BackgroundImage",
@@ -226,18 +197,7 @@ fun MemoryScreen(
                             isLastRow = rowRange.last() == range
                         )
                     }
-                    Row (
-                        modifier = modifier
-                            .weight(.5f)
-                            .fillMaxWidth()
-                            .padding(top = 4.dp, bottom = 4.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.SpaceBetween
-                    ){
-                        ResetGameButton(viewModel = viewModel, modifier = Modifier.weight(.1f))
 
-
-                    }
 
                 }
             }else{
@@ -268,57 +228,50 @@ fun MemoryScreen(
                     verticalArrangement = Arrangement.SpaceBetween,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    ResetGameButton(viewModel = viewModel, modifier = Modifier.weight(.1f))
+
                 }
             }
         }
     }
-    if(state.pairCount == state.pairMatched){
-        Box(modifier = modifier.fillMaxSize(),
-           contentAlignment = Alignment.Center
-        ){
-            Card(modifier = modifier
-                .fillMaxWidth(0.7f)
-                .border(
-                    width = 4.dp,
-                    shape = RoundedCornerShape(12.dp),
-                    color = state.theme.matchedOutlineColor
-                ),
-                colors = CardDefaults.cardColors(
-                    containerColor = state.theme.cardFrontBaseColor
-                )
+    if (state.pairCount == state.pairMatched){
+        val numberOfCards = state.pairCount * 2
+        val numberOfClicks = state.clickCount
+        val score = numberOfCards.toFloat() / numberOfClicks
+
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Bottom,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.White, RoundedCornerShape(12.dp))
+                    .padding(16.dp)
             ) {
-                Row(modifier = modifier
-                    .fillMaxWidth()
-                    .padding(top = 4.dp, bottom = 4.dp),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically) 
-                {
-                 Text(
-                     text = "You have won!\n Score: ${state.clickCount} clicks",
-                     color = Color.Black,
-                     fontSize = 30.sp,
-                     lineHeight = 30.sp,
-                     modifier= Modifier.padding(8.dp)
-                 )
-
-                }
-                Row(modifier = modifier
-                    .fillMaxWidth()
-                    .padding(top = 4.dp, bottom = 4.dp),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically)
-                {
-                    IconButton(
-                        onClick = { viewModel.onEvent(MemoryEvent.ResetGame) },
-                        icon = Icons.Default.Cached,
-                        contentDescription = "Reset Game",
-                        tint = Color.White,
-                        modifier = modifier
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = "Score: $score",
+                        fontSize = 24.sp,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(bottom = 16.dp)
                     )
+                    Button(
+                        onClick = { context.startActivity(Intent(context, MainActivity::class.java))},
+                        modifier = Modifier.fillMaxWidth(),
+                    ) {
+                        Text("Finish")
+                    }
                 }
-
             }
+        }
+        currentUser?.let {
+            viewModel.saveGameResult(MemoryGameDataClass(UUID.randomUUID().toString(), numberOfCards, numberOfClicks, score))
         }
     }
 }
