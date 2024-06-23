@@ -1,6 +1,5 @@
 package com.example.cognitiveapp.TestOne
 
-import android.content.Context
 import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*

@@ -84,7 +84,7 @@ fun MainActivityForm(onTestClick: (testNumber: Int) -> Unit) {
                             .padding(10.dp)
                             .fillMaxWidth()
                     ) {
-                        val image: Painter = painterResource(id = R.drawable.icon2)
+                        val image: Painter = painterResource(id = R.drawable.puzzle)
                         Image(
                             painter = image,
                             contentDescription = null,
@@ -93,8 +93,8 @@ fun MainActivityForm(onTestClick: (testNumber: Int) -> Unit) {
                                 .padding(end = 10.dp)
                         )
                         Text(
-                            text = "TEST 1",
-                            style = TextStyle(color = Color.Black, fontSize = 30.sp),
+                            text = "ODD ONE OUT",
+                            style = TextStyle(color = Color.Black, fontSize = 15.sp),
                             modifier = Modifier.padding(start = 10.dp)
                         )
                     }
@@ -118,7 +118,7 @@ fun MainActivityForm(onTestClick: (testNumber: Int) -> Unit) {
                             .padding(10.dp)
                             .fillMaxWidth()
                     ) {
-                        val image: Painter = painterResource(id = R.drawable.icon2)
+                        val image: Painter = painterResource(id = R.drawable.aces)
                         Image(
                             painter = image,
                             contentDescription = null,
@@ -127,8 +127,8 @@ fun MainActivityForm(onTestClick: (testNumber: Int) -> Unit) {
                                 .padding(end = 10.dp)
                         )
                         Text(
-                            text = "TEST 2",
-                            style = TextStyle(color = Color.Black, fontSize = 30.sp),
+                            text = "MEMORY CARDS",
+                            style = TextStyle(color = Color.Black, fontSize = 15.sp),
                             modifier = Modifier.padding(start = 10.dp)
                         )
                     }
@@ -160,8 +160,8 @@ fun MainActivityForm(onTestClick: (testNumber: Int) -> Unit) {
                                 .padding(end = 10.dp)
                         )
                         Text(
-                            text = "TEST 3",
-                            style = TextStyle(color = Color.Black, fontSize = 30.sp),
+                            text = "REMEMBER WORDS",
+                            style = TextStyle(color = Color.Black, fontSize = 15.sp),
                             modifier = Modifier.padding(start = 10.dp)
                         )
                     }

@@ -264,6 +264,9 @@ fun MemoryScreen(
                     Button(
                         onClick = { context.startActivity(Intent(context, MainActivity::class.java))},
                         modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xfffa824c)
+                        )
                     ) {
                         Text("Finish")
                     }
