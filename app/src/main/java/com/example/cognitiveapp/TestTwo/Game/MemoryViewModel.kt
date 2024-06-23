@@ -1,16 +1,26 @@
 package com.example.cognitiveapp.TestTwo.Game
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import androidx.lifecycle.ViewModel
+import com.example.cognitiveapp.firebase.MemoryGameDataClass
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
+import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class MemoryViewModel: ViewModel() {
+
+    private val db = Firebase.firestore
+    private val auth = Firebase.auth
+
     private val _state = mutableStateOf(MemoryState())
     val state: State<MemoryState> = _state
     private var delayedCompareJob: Job? = null
@@ -18,6 +28,27 @@ class MemoryViewModel: ViewModel() {
     init {
         initialFlip()
     }
+
+    fun saveGameResult(result: MemoryGameDataClass) {
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            Log.w(TAG, "No user is logged in.")
+            return
+        }
+
+        currentUser.uid.let { userId ->
+            val userGamesRef = db.collection("users").document(userId).collection("MemoryCardGames")
+            userGamesRef
+                .add(result)
+                .addOnSuccessListener { documentReference ->
+                    Log.d(TAG, "Game result added with ID: ${documentReference.id}")
+                }
+                .addOnFailureListener { e ->
+                    Log.w(TAG, "Error adding game result", e)
+                }
+        }
+    }
+
 
     fun onEvent(event: MemoryEvent){
 
