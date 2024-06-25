@@ -92,11 +92,11 @@ fun MainActivityForm(onTestClick: (testNumber: Int) -> Unit) {
                                 .size(60.dp)
                                 .padding(end = 10.dp)
                         )
-                        Text(
-                            text = "ODD ONE OUT",
-                            style = TextStyle(color = Color.Black, fontSize = 15.sp),
-                            modifier = Modifier.padding(start = 10.dp)
-                        )
+                                        Text(
+                                    text = "ODD ONE OUT",
+                                    style = TextStyle(color = Color.Black, fontSize = 15.sp),
+                                    modifier = Modifier.padding(start = 10.dp)
+                                )
                     }
                 }
                 Spacer(modifier = Modifier.height(20.dp))
