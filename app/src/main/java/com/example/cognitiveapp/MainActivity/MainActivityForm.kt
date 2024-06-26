@@ -35,6 +35,12 @@ import androidx.compose.ui.unit.sp
 import com.example.cognitiveapp.R
 import com.example.cognitiveapp.ui.theme.CognitiveAppTheme
 
+
+/**
+ * Composable function that displays the main UI of the MainActivity.
+ *
+ * @param onTestClick Callback function to handle when a test button is clicked.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainActivityForm(onTestClick: (testNumber: Int) -> Unit) {
@@ -92,11 +98,11 @@ fun MainActivityForm(onTestClick: (testNumber: Int) -> Unit) {
                                 .size(60.dp)
                                 .padding(end = 10.dp)
                         )
-                        Text(
-                            text = "ODD ONE OUT",
-                            style = TextStyle(color = Color.Black, fontSize = 15.sp),
-                            modifier = Modifier.padding(start = 10.dp)
-                        )
+                                        Text(
+                                    text = "ODD ONE OUT",
+                                    style = TextStyle(color = Color.Black, fontSize = 15.sp),
+                                    modifier = Modifier.padding(start = 10.dp)
+                                )
                     }
                 }
                 Spacer(modifier = Modifier.height(20.dp))

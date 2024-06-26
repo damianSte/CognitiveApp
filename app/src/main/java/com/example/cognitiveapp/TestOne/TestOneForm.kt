@@ -10,10 +10,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.cognitiveapp.MainActivity.MainActivity
 import com.example.cognitiveapp.firebase.OddOneOutViewModel
 import com.example.cognitiveapp.ui.theme.CognitiveAppTheme
@@ -46,17 +50,30 @@ fun ImageCard(
     drawableResource: Int,
     imageContent: String
 ) {
-    Card(Modifier.padding(vertical = 10.dp)) {
+
+    val localDensity = LocalDensity.current
+    var cardHeight by remember {
+        mutableStateOf(0.dp)
+    }
+    var cardWidth by remember {
+        mutableStateOf(0.dp)
+    }
+    Card(Modifier.padding(vertical = 10.dp), elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)) {
         Box(
             modifier = Modifier
                 .height(200.dp)
-                .width(200.dp),
+                .width(200.dp).fillMaxSize().onGloballyPositioned { coordinates ->
+                    cardHeight = with(localDensity) { coordinates.size.height.toDp() }
+                    cardWidth = with(localDensity) { coordinates.size.width.toDp() }
+                },
             contentAlignment = Alignment.Center
         ) {
+            val cardAspectRatio = cardWidth/cardHeight
+            val shouldUseFillWidth = cardAspectRatio > 0.66f
             Image(
                 painter = painterResource(id = drawableResource),
                 contentDescription = "Image of a $imageContent",
-                contentScale = ContentScale.Crop,
+                contentScale = if (shouldUseFillWidth) ContentScale.FillWidth else ContentScale.FillHeight,
                 modifier = Modifier.fillMaxSize(),
                 alignment = Alignment.Center
             )
@@ -69,6 +86,12 @@ fun TestOneForm(viewModel: OddOneOutViewModel) {
     var correctAnswer by remember { mutableStateOf(false) }
     var roundCompleted by remember { mutableStateOf(false) }
     var gameComplete by remember { mutableStateOf(false) }
+    var cardHeight by remember {
+        mutableStateOf(0.dp)
+    }
+    var cardWidth by remember {
+        mutableStateOf(0.dp)
+    }
 
     val cards = viewModel.getCurrentCards()
     val context = LocalContext.current
@@ -190,8 +213,16 @@ fun TestOneForm(viewModel: OddOneOutViewModel) {
                     gameComplete = false
 
                 },
-                    modifier = Modifier.align(Alignment.CenterHorizontally)) {
-                    Text("Finish")
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xfffff07c)
+
+                    ),
+                    modifier = Modifier.align(Alignment.CenterHorizontally).fillMaxWidth()) {
+                    Text(
+                        text = "FINISH",
+                        style = TextStyle(color = Color.Black, fontSize = 15.sp),
+                        modifier = Modifier.padding(start = 10.dp)
+                    )
                 }
             }
         }

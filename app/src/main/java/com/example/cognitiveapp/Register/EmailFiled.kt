@@ -22,6 +22,16 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
+
+/**
+ * Composable function to display an email input field.
+ *
+ * @param value Current value of the email input field.
+ * @param onChange Callback function to handle value changes in the email input field.
+ * @param modifier Modifier for styling and layout customization.
+ * @param label Label text for the email input field.
+ * @param placeholder Placeholder text for the email input field when empty.
+ */
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun EmailField(

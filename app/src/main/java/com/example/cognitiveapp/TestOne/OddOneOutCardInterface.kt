@@ -1,15 +1,48 @@
 package com.example.cognitiveapp.TestOne
 import com.example.cognitiveapp.R
 
+/**
+ * Interface defining operations related to the Odd One Out test cards.
+ */
 interface OddOneOutCardInterface{
 
+    /**
+     * Map containing correct image resources associated with their respective numbers.
+     */
     val correctImageMap: Map<Int, Int>
+
+    /**
+     * Map containing incorrect image resources associated with their respective numbers.
+     */
     val incorrectImageMap: Map<Int, Int>
+
+    /**
+     * Map containing correct word descriptions associated with their respective numbers.
+     */
     val correctWordMap : Map<Int, String>
+    /**
+     * Map containing incorrect word descriptions associated with their respective numbers.
+     */
     val incorrectWordMap : Map<Int, String>
+
+    /**
+     * Retrieves the image resource ID for the given number.
+     *
+     * @param number The number associated with the image resource.
+     * @return The resource ID of the image, or null if no resource is found for the number.
+     */
     fun getImageResourceForNumber(number: Int): Int?
 }
 
+
+/**
+ * Implementation of OddOneOutCardInterface that provides specific maps for the "Odd One Out" theme.
+ *
+ * @param correctWordMap Map of correct word descriptions associated with their respective numbers.
+ * @param correctImageMap Map of correct image resources associated with their respective numbers.
+ * @param incorrectImageMap Map of incorrect image resources associated with their respective numbers.
+ * @param incorrectWordMap Map of incorrect word descriptions associated with their respective numbers.
+ */
 class ThemeOddOneOut(
 
     override val correctWordMap: Map<Int, String> = mapOf(
@@ -42,6 +75,14 @@ class ThemeOddOneOut(
     )
 
 ): OddOneOutCardInterface {
+
+
+    /**
+     * Retrieves the image resource ID for the given number.
+     *
+     * @param number The number associated with the image resource.
+     * @return The resource ID of the image, or null if no resource is found for the number.
+     */
     override fun getImageResourceForNumber(number: Int): Int? {
         return correctImageMap[number] ?: incorrectImageMap[number]
     }

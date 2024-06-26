@@ -43,6 +43,10 @@ import com.example.cognitiveapp.Register.RegisterActivity
 import com.example.cognitiveapp.ui.theme.CognitiveAppTheme
 import com.google.firebase.auth.FirebaseAuth
 
+
+/**
+ * Composable function that displays the login form.
+ */
 @Composable
 fun LogInForm() {
 
@@ -126,7 +130,12 @@ fun LogInForm() {
         }
     }
 }
-
+/**
+ * Checks the provided credentials and attempts to log in the user.
+ *
+ * @param credentials The user's login credentials.
+ * @param context The context in which this function is called.
+ */
 fun checkCredentials(credentials: Credentials, context: Context) {
     if (credentials.isNotEmpty()) {
         val auth = FirebaseAuth.getInstance()
@@ -144,7 +153,9 @@ fun checkCredentials(credentials: Credentials, context: Context) {
     }
 }
 
-
+/**
+ * Preview of the LogInForm composable function with light theme.
+ */
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LogInFormPreview() {
@@ -153,6 +164,10 @@ fun LogInFormPreview() {
     }
 }
 
+
+/**
+ * Preview of the LogInForm composable function with dark theme.
+ */
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun LogInFormPreviewDark() {
