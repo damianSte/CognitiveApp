@@ -10,7 +10,11 @@ class RegisterActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Initialize Firebase
         FirebaseApp.initializeApp(this)
+
+        // Set the content of the activity
         setContent {
             CognitiveAppTheme {
                 RegisterForm()

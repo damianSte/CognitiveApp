@@ -1,5 +1,7 @@
 package com.example.cognitiveapp.Register
 
+
+// Example usage:
 data class RegisterCredentials(
     var name: String = "",
     var surname: String = "",
@@ -8,6 +10,8 @@ data class RegisterCredentials(
     var repeatPassword: String = "",
     var remember: Boolean = false
 ) {
+
+    // Checking if credentials are not empty
     fun isNotEmpty(): Boolean {
         return name.isNotEmpty() && surname.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && repeatPassword.isNotEmpty()
     }

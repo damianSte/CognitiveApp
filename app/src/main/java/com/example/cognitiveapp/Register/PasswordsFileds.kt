@@ -22,6 +22,17 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 
+
+/**
+ * Composable function to display a password input field.
+ *
+ * @param value Current value of the password input field.
+ * @param onChange Callback function to handle value changes in the password input field.
+ * @param submit Callback function to execute when the user submits the password input.
+ * @param modifier Modifier for styling and layout customization.
+ * @param label Label text for the password input field.
+ * @param placeholder Placeholder text for the password input field when empty.
+ */
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun PasswordField(
@@ -70,6 +81,18 @@ fun PasswordField(
         )
 
 }
+
+
+/**
+ * Composable function to display a repeat password input field.
+ *
+ * @param value Current value of the repeat password input field.
+ * @param onChange Callback function to handle value changes in the repeat password input field.
+ * @param submit Callback function to execute when the user submits the repeat password input.
+ * @param modifier Modifier for styling and layout customization.
+ * @param label Label text for the repeat password input field.
+ * @param placeholder Placeholder text for the repeat password input field when empty.
+ */
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun RepeatPasswordField(

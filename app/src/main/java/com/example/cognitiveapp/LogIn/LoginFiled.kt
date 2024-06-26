@@ -22,6 +22,16 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
+
+/**
+ * A composable function that creates a custom login text field.
+ *
+ * @param value The current text to display in the text field.
+ * @param onChange A lambda to handle text changes.
+ * @param modifier The modifier to be applied to the text field. Default is an empty modifier.
+ * @param label The label to display in the text field. Default is "Login".
+ * @param placeholder The placeholder text to display in the text field. Default is "Enter your Login".
+ */
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 

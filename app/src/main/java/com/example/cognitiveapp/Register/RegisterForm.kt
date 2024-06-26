@@ -40,6 +40,14 @@ import com.example.cognitiveapp.MainActivity.MainActivity
 import com.example.cognitiveapp.ui.theme.CognitiveAppTheme
 import com.google.firebase.auth.FirebaseAuth
 
+
+/**
+ * Composable function that displays a registration form.
+ * Users can input their name, surname, email, password, and repeat password.
+ * Upon successful registration, the user is redirected to the main activity.
+ * @see RegisterCredentials
+ * @see checkCredentials
+ */
 @Composable
 fun RegisterForm() {
     var credentials by remember { mutableStateOf(RegisterCredentials()) }
@@ -94,6 +102,18 @@ fun RegisterForm() {
     }
 }
 
+
+
+/**
+ * Function to validate user credentials and initiate registration process.
+ * If credentials are valid and passwords match, attempts to create user account using Firebase authentication.
+ * Displays a toast message on success or failure.
+ * @param credentials User registration data including name, surname, email, password, and repeat password.
+ * @param context The context used to start activities and display toast messages.
+ * @see RegisterCredentials
+ * @see FirebaseAuth
+ */
+
 fun checkCredentials(credentials: RegisterCredentials, context: Context) {
     if (credentials.isNotEmpty() && credentials.password == credentials.repeatPassword) {
         val auth = FirebaseAuth.getInstance()
@@ -112,7 +132,10 @@ fun checkCredentials(credentials: RegisterCredentials, context: Context) {
     }
 }
 
-
+/**
+ * Preview function to display a preview of the RegisterForm composable.
+ * @see RegisterForm
+ */
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun RegisterFormPreview() {

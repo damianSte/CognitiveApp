@@ -30,6 +30,16 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 
 
+/**
+ * A composable function that creates a custom password text field.
+ *
+ * @param value The current text to display in the password field.
+ * @param onChange A lambda to handle text changes.
+ * @param submit A lambda to handle the submit action.
+ * @param modifier The modifier to be applied to the password field. Default is an empty modifier.
+ * @param label The label to display in the password field. Default is "Password".
+ * @param placeholder The placeholder text to display in the password field. Default is "Enter your Password".
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PasswordField(
