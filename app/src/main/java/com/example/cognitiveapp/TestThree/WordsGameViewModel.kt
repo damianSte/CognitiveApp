@@ -13,44 +13,69 @@ import com.google.firebase.firestore.FirebaseFirestore
 import androidx.compose.runtime.State
 
 
+/**
+ * ViewModel for the Words Game, handling the game's state, countdown timer, and user interactions.
+ */
 class WordsGameViewModel : ViewModel() {
 
+    // LiveData for game words
     private val _words = MutableLiveData<List<String>>()
-
-    private val db = FirebaseFirestore.getInstance()
-    private val auth = FirebaseAuth.getInstance()
     val words: LiveData<List<String>> get() = _words
 
+    // LiveData for user input
     private val _userInput = MutableLiveData<List<String>>()
     val userInput: LiveData<List<String>> get() = _userInput
 
+    // LiveData for results of user answers
     private val _results = MutableLiveData<List<Boolean>>()
     val results: LiveData<List<Boolean>> get() = _results
 
+    // LiveData for current score (correct answers vs total)
     private val _score = MutableLiveData<Pair<Int, Int>>()
     val score: LiveData<Pair<Int, Int>> get() = _score
 
+    // LiveData to show/hide the score screen
     private val _showScore = MutableLiveData<Boolean>()
     val showScore: LiveData<Boolean> get() = _showScore
 
-    private val theme: WordGameInterface = ThemeWordsGame()
-
+    // LiveData to navigate to answer form screen
     private val _navigateToAnswerForm = MutableLiveData<Boolean>()
     val navigateToAnswerForm: LiveData<Boolean> get() = _navigateToAnswerForm
+
+    // LiveData for remaining time on countdown
     private val _remainingTime = MutableLiveData<Long>()
     val remainingTime: LiveData<Long> get() = _remainingTime
 
+    // State for button enable/disable state
     private val _isButtonEnabled = mutableStateOf(true)
     val isButtonEnabled: State<Boolean> get() = _isButtonEnabled
 
+    // Firebase Firestore instance
+    private val db = FirebaseFirestore.getInstance()
+
+    // Firebase Authentication instance
+    private val auth = FirebaseAuth.getInstance()
+
+    // Theme for the game, implementing WordGameInterface
+    private val theme: WordGameInterface = ThemeWordsGame()
+
+    // Countdown timer object
     private var countDownTimer: CountDownTimer? = null
+
+    // Countdown duration in milliseconds
     private val countdownDurationMillis: Long = 45 * 1000 // 45 seconds
 
+    /**
+     * Initializes the ViewModel, generates words, starts countdown, and hides score screen.
+     */
     init {
         generateWords()
         startCountdown()
         _showScore.value = false
     }
+    /**
+     * Generates the words for the game and updates the LiveData.
+     */
 
     private fun generateWords() {
         val words = WordGameState.generateWordsArray(5).map { card ->
@@ -62,6 +87,9 @@ class WordsGameViewModel : ViewModel() {
         _words.value = words
     }
 
+    /**
+     * Saves the word game data to Firebase Firestore.
+     */
     fun saveWordGameData() {
         val currentUser = auth.currentUser
         if (currentUser == null) {
@@ -96,6 +124,9 @@ class WordsGameViewModel : ViewModel() {
         }
     }
 
+    /**
+     * Starts the countdown timer for the game.
+     */
     private fun startCountdown() {
         _remainingTime.value = countdownDurationMillis
 
@@ -111,12 +142,21 @@ class WordsGameViewModel : ViewModel() {
         }.start()
     }
 
+    /**
+     * Updates the user input at the given index.
+     *
+     * @param index The index of the input field.
+     * @param word The word entered by the user.
+     */
     fun updateUserInput(index: Int, word: String) {
         val updatedList = _userInput.value?.toMutableList() ?: mutableListOf("", "", "", "", "")
         updatedList[index] = word
         _userInput.value = updatedList
     }
 
+    /**
+     * Checks the user's answers against the correct answers and updates the results and score.
+     */
     fun checkAnswers() {
         val correctAnswers = _words.value ?: emptyList()
         val userAnswers = _userInput.value ?: emptyList()
@@ -133,6 +173,10 @@ class WordsGameViewModel : ViewModel() {
         _isButtonEnabled.value = false
     }
 
+
+    /**
+     * Resets the navigation state after navigating to the answer form.
+     */
 
     fun onAnswerFormNavigated() {
         _navigateToAnswerForm.value = false

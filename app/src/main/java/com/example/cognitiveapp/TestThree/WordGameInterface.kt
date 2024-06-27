@@ -1,17 +1,46 @@
 package com.example.cognitiveapp.TestThree
 
-import com.example.cognitiveapp.TestTwo.Game.cardInterface
-
+/**
+ * Interface defining the structure for the word game, including categories of words and a method to get word resources.
+ */
 interface WordGameInterface {
+    /**
+     * Map of animal words with their corresponding numbers.
+     */
     val wordAnimals: Map<Int, String>
+
+    /**
+     * Map of fruit words with their corresponding numbers.
+     */
     val wordFruits: Map<Int, String>
+
+    /**
+     * Map of color words with their corresponding numbers.
+     */
     val wordColors: Map<Int, String>
+
+    /**
+     * Map of vegetable words with their corresponding numbers.
+     */
     val wordVegetables: Map<Int, String>
+
+    /**
+     * Map of plant words with their corresponding numbers.
+     */
     val wordPlants: Map<Int, String>
 
+    /**
+     * Method to get the resource for a given number.
+     *
+     * @param number The number for which to get the resource.
+     * @return The resource ID if found, otherwise null.
+     */
     fun getWordResourceForNumber(number: Int): Int?
 }
 
+/**
+ * Class implementing the WordGameInterface, providing predefined word mappings for different categories.
+ */
 class ThemeWordsGame(
     override val wordAnimals: Map<Int, String> = mapOf(
         1 to "Cat",
@@ -74,6 +103,12 @@ class ThemeWordsGame(
         50 to "Cactus"
     )
 ) : WordGameInterface {
+    /**
+     * Gets the resource for a given number by checking all word categories.
+     *
+     * @param number The number for which to get the resource.
+     * @return The resource ID if found, otherwise null.
+     */
     override fun getWordResourceForNumber(number: Int): Int? {
         val allWords = wordAnimals + wordFruits + wordColors + wordVegetables + wordPlants
         return if (allWords.containsKey(number)) number else null

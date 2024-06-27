@@ -24,6 +24,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 
+/**
+ * A composable function to display a word in the center of the screen with bold text.
+ *
+ * @param word The word to display.
+ */
 @Composable
 fun WordText(
     word: String
@@ -37,6 +42,13 @@ fun WordText(
     }
 }
 
+/**
+ * A composable function to display the Test Three form, which shows a list of words to remember
+ * and a countdown timer for the user to memorize them before navigating to the answer form.
+ *
+ * @param viewModel The [WordsGameViewModel] instance for managing the state and logic of the game.
+ * @param navController The [NavHostController] for handling navigation.
+ */
 @Composable
 fun TestThreeForm(viewModel: WordsGameViewModel, navController: NavHostController) {
     val words by viewModel.words.observeAsState(emptyList())

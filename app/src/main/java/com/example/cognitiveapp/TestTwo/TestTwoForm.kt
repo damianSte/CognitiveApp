@@ -53,6 +53,15 @@ import com.google.firebase.auth.FirebaseAuth
 import java.util.UUID
 
 
+/**
+ * Composable function representing a memory game card.
+ *
+ * @param card The memory card object to display.
+ * @param modifier Modifier for styling the card.
+ * @param state Current state of the memory game.
+ * @param onCLick Callback when the card is clicked.
+ */
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MemoryGameCard(
@@ -138,6 +147,13 @@ fun MemoryGameCard(
     }
 }
 
+/**
+ * Calculates the ranges for rows of memory cards based on device orientation and pair count.
+ *
+ * @param pairCount Number of pairs of cards in the game.
+ * @param isPortrait Whether the device is in portrait mode.
+ * @return List of IntRanges representing row indices.
+ */
 fun calculateRowRange(pairCount: Int, isPortrait: Boolean): List<IntRange>{
     return when(isPortrait){
         true->{
@@ -154,6 +170,13 @@ fun calculateRowRange(pairCount: Int, isPortrait: Boolean): List<IntRange>{
     }
 }
 
+/**
+ * Composable function representing the memory card game screen.
+ *
+ * @param modifier Modifier for styling the screen.
+ * @param viewModel ViewModel managing the game state and logic.
+ * @param currentUser Current authenticated user (FirebaseAuth).
+ */
 @Composable
 fun MemoryScreen(
     modifier: Modifier = Modifier,
@@ -279,6 +302,15 @@ fun MemoryScreen(
     }
 }
 
+/**
+ * Composable function representing a row of memory game cards.
+ *
+ * @param modifier Modifier for styling the row.
+ * @param range IntRange representing the indices of cards in this row.
+ * @param numberOfRows Total number of rows in the game board.
+ * @param viewModel ViewModel managing the game state and logic.
+ * @param isLastRow Whether this is the last row in the game board.
+ */
 @Composable
 fun BuildCardRow(
     modifier: Modifier = Modifier,

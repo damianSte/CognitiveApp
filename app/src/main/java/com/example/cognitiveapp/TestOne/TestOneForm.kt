@@ -22,6 +22,11 @@ import com.example.cognitiveapp.MainActivity.MainActivity
 import com.example.cognitiveapp.firebase.OddOneOutViewModel
 import com.example.cognitiveapp.ui.theme.CognitiveAppTheme
 
+/**
+ * A composable function for an answer button used in the Odd One Out game.
+ * @param onClick The function to execute when the button is clicked.
+ * @param answerText The text to display on the button.
+ */
 @Composable
 fun AnswerButton(
     onClick: () -> Unit,
@@ -45,6 +50,11 @@ fun AnswerButton(
     }
 }
 
+/**
+ * A composable function to display an image card.
+ * @param drawableResource The resource ID of the drawable to display.
+ * @param imageContent The description of the image content.
+ */
 @Composable
 fun ImageCard(
     drawableResource: Int,
@@ -81,6 +91,10 @@ fun ImageCard(
     }
 }
 
+/**
+ * A composable function to display the Test One form with the current game state.
+ * @param viewModel The ViewModel for the Odd One Out game.
+ */
 @Composable
 fun TestOneForm(viewModel: OddOneOutViewModel) {
     var correctAnswer by remember { mutableStateOf(false) }

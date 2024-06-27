@@ -12,6 +12,10 @@ import com.example.cognitiveapp.ui.theme.CognitiveAppTheme
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
+
+/**
+ * Activity hosting the memory card game UI using Jetpack Compose.
+ */
 class TestTwoActivity: ComponentActivity(){
 
     private val firebaseAuth = FirebaseAuth.getInstance()
