@@ -16,6 +16,10 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+
+/**
+ * ViewModel for managing the state and logic of a memory card matching game.
+ */
 class MemoryViewModel: ViewModel() {
 
     private val db = Firebase.firestore
@@ -29,6 +33,11 @@ class MemoryViewModel: ViewModel() {
         initialFlip()
     }
 
+    /**
+     * Saves the game result to Firestore under the current user's collection.
+     *
+     * @param result The game result object to be saved.
+     */
     fun saveGameResult(result: MemoryGameDataClass) {
         val currentUser = auth.currentUser
         if (currentUser == null) {
@@ -50,6 +59,11 @@ class MemoryViewModel: ViewModel() {
     }
 
 
+    /**
+     * Handles incoming events related to the memory game.
+     *
+     * @param event The [MemoryEvent] to be processed.
+     */
     fun onEvent(event: MemoryEvent){
 
         when(event){
@@ -62,12 +76,18 @@ class MemoryViewModel: ViewModel() {
         }
     }
 
+    /**
+     * Increases the click count each time a card is clicked.
+     */
     private fun increaseClickCount(){
         _state.value = _state.value.copy(
             clickCount = _state.value.clickCount + 1
         )
     }
 
+    /**
+     * Resets the game state by generating a new set of cards and flipping them initially.
+     */
     private fun resetGame(){
         _state.value = MemoryState(
             cards = generateCardArray(_state.value.pairCount),
@@ -77,6 +97,9 @@ class MemoryViewModel: ViewModel() {
         initialFlip()
     }
 
+    /**
+     * Initializes the game by flipping all cards initially, showing their images briefly, and then hiding them after a delay.
+     */
     private fun initialFlip() {
         viewModelScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main) {
@@ -89,6 +112,11 @@ class MemoryViewModel: ViewModel() {
         }
     }
 
+    /**
+     * Flips all cards to show or hide their images based on the [showImages] parameter.
+     *
+     * @param showImages Boolean flag indicating whether to show (true) or hide (false) card images.
+     */
     private fun flipAllCards(showImages: Boolean) {
         val cards = _state.value.cards.copyOf()
         for (card in cards) {
@@ -97,6 +125,11 @@ class MemoryViewModel: ViewModel() {
         _state.value = _state.value.copy(cards = cards)
     }
 
+    /**
+     * Handles the click event on a card by flipping it and initiating delayed card comparison.
+     *
+     * @param id The ID of the card clicked.
+     */
     private fun onCardClick(id: Int){
         cancelPreviousJob()
         increaseClickCount()
@@ -123,6 +156,11 @@ class MemoryViewModel: ViewModel() {
         }
     }
 
+    /**
+     * Flips the card with the given [id] by calling `flipCard()` on it.
+     *
+     * @param id The ID of the card to flip.
+     */
     private fun flip(id: Int){
         val cards = _state.value.cards.copyOf()
         cards[id].flipCard()
@@ -134,6 +172,12 @@ class MemoryViewModel: ViewModel() {
         )
     }
 
+    /**
+     * Compares the values of two selected cards and updates the game state accordingly.
+     *
+     * @param first The index of the first selected card.
+     * @param second The index of the second selected card.
+     */
     private fun compareValues(first: Int?, second: Int?){
         val cards = _state.value.cards.copyOf()
         if (second != null && first != null) {
@@ -155,12 +199,18 @@ class MemoryViewModel: ViewModel() {
         resetCompareCards()
     }
 
+    /**
+     * Resets the selected cards (`card1` and `card2`) after comparing their values.
+     */
     private fun resetCompareCards(){
         if (_state.value.card2 != null) {
             _state.value = _state.value.copy(card1 = null, card2 = null)
         }
     }
 
+    /**
+     * Cancels the previously running delayed comparison job and compares the values of selected cards.
+     */
     private fun cancelPreviousJob(){
         val firstIndex = _state.value.card1
         val secondIndex = _state.value.card2

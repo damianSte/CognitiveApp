@@ -35,6 +35,16 @@ import androidx.compose.ui.unit.sp
 import com.example.cognitiveapp.MainActivity.MainActivity
 import com.example.cognitiveapp.TestThree.WordsGameViewModel
 
+/**
+ * A composable function to create an answer text field form with a specific design.
+ *
+ * @param value The current text value of the text field.
+ * @param onChange A lambda function to handle text value changes.
+ * @param modifier A [Modifier] for this composable.
+ * @param placeholder The placeholder text for the text field.
+ * @param wordNo The label text indicating the word number.
+ * @param isCorrect An optional Boolean indicating if the entered answer is correct. The border color changes accordingly.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AnswerTextForm(
@@ -82,6 +92,11 @@ fun AnswerTextForm(
     }
 }
 
+/**
+ * A composable function to display the Test Three answer form, which allows users to input and check their answers.
+ *
+ * @param viewModel The [WordsGameViewModel] instance for managing the state and logic of the game.
+ */
 @Composable
 fun TestThreeAnswerForm(viewModel: WordsGameViewModel) {
     val userInput by viewModel.userInput.observeAsState(emptyList())
